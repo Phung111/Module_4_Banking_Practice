@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <title>Customer</title>
+    <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-6">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Basic Layout</h5>
+                    <small class="text-muted float-end">Default label</small>
+                </div>
+                <div class="card-body">
+                    <th:block th:object="${customer}">
+                        <form method="post">
+                            <input th:field="*{id}" type="hidden" />
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-default-fullname">Name</label>
+                                <input th:field="*{fullName}"
+                                       type="text" class="form-control" id="basic-default-fullname" readonly/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-default-company">Email</label>
+                                <input th:field="*{email}"
+                                       type="text" class="form-control" id="basic-default-company" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-default-address">Address</label>
+                                <input th:field="*{address}"
+                                       type="text" class="form-control" id="basic-default-address" readonly />
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="basic-default-address">Address</label>
+                                <input th:field="*{balance}"
+                                       type="text" class="form-control" id="basic-default-balance" readonly />
+                            </div>
+                        </form>
+                        <a href="/customers"><button type="submit" class="btn btn-primary">Back to customer list</button></a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- / Content -->
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

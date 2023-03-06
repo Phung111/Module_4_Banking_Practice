@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+  <title>Customer</title>
+  <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+  <!-- Basic Bootstrap Table -->
+  <div class="row">
+    <h4 class="fw-bold py-3 mb-4">Transfer</h4>
+    <div class="card">
+      <div class="table-responsive text-nowrap">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>#</th>
+            <th>Time</th>
+            <th>Sender</th>
+            <th>Recipient</th>
+            <th>Transfer Amount</th>
+            <th>Fees (%)</th>
+            <th>Fees Amount</th>
+            <th>Transaction Amount</th>
+          </tr>
+          </thead>
+          <tbody class="table-border-bottom-0">
+          <tr th:each="transfer : ${transfers}">
+            <td th:text="${transfer.getId()}"></td>
+            <td th:text="${#dates.format(transfer.getCreatedAt(), 'dd/MM/yyyy')}"></td>
+            <td th:text="${transfer.getSender().getId()}+' - '+${transfer.getSender().getFullName()}"></td>
+            <td th:text="${transfer.getRecipient().getId()}+' - '+${transfer.getRecipient().getFullName()}"></td>
+            <td th:text="${#numbers.formatDecimal(transfer.getTransferAmount(), 1, 'DEFAULT', 0, 'DEFAULT')} + ' đ'" style="text-align: right"></td>
+            <td >10</td>
+            <td th:text="${#numbers.formatDecimal(transfer.getFeesAmount(), 1, 'DEFAULT', 0, 'DEFAULT')} + ' đ'" style="text-align: right"></td>
+            <td th:text="${#numbers.formatDecimal(transfer.getTransactionAmount(), 1, 'DEFAULT', 0, 'DEFAULT')} + ' đ'" style="text-align: right"></td>
+<!--            <td th:text="${transfer.getTransactionAmount()}"></td>-->
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6">
+      <h4 class="fw-bold py-3 mb-4">Deposit</h4>
+      <div class="card">
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Time</th>
+              <th>Name</th>
+              <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            <tr th:each="deposit : ${deposits}">
+              <td th:text="${deposit.getId()}"></td>
+              <td th:text="${#dates.format(deposit.getCreatedAt(), 'dd/MM/yyyy')}"></td>
+              <td th:text="${deposit.getCustomer().getFullName()}"></td>
+              <td th:text="${deposit.getTransactionAmount()}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-6">
+      <h4 class="fw-bold py-3 mb-4">Withdraw</h4>
+      <div class="card">
+        <div class="table-responsive text-nowrap">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>#</th>
+              <th>Time</th>
+              <th>Name</th>
+              <th>Amount</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            <tr th:each="withdraw : ${withdraws}">
+              <td th:text="${withdraw.getId()}"></td>
+              <td th:text="${#dates.format(withdraw.getCreatedAt(), 'dd/MM/yyyy')}"></td>
+              <td th:text="${withdraw.getCustomer().getFullName()}"></td>
+              <td th:text="${withdraw.getTransactionAmount()}"></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+
+<!-- / Content -->
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

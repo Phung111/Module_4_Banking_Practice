@@ -1,0 +1,24 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `view_change_balance` AS
+SELECT
+        id,
+        (select full_name from customers where customers.id = deposits.customer_id) as full_name,
+        created_at,
+        transaction_amount,
+        'DEPOSIT' as method
+    FROM
+        deposits
+UNION ALL
+SELECT
+        id,
+        (select full_name from customers where customers.id = withdraws.customer_id) as full_name,
+        created_at,
+        transaction_amount,
+        'WITHDRAW' as method
+    FROM
+        withdraws
+    ORDER BY
+        created_at ASC;

@@ -1,0 +1,32 @@
+CREATE 
+    ALGORITHM = UNDEFINED 
+    DEFINER = `root`@`localhost` 
+    SQL SECURITY DEFINER
+VIEW `view_change_balance` AS
+    SELECT 
+        `withdraws`.`id` AS `id`,
+        (SELECT 
+                `customers`.`full_name`
+            FROM
+                `customers`
+            WHERE
+                (`customers`.`id` = `withdraws`.`customer_id`)) AS `full_name`,
+        `withdraws`.`created_at` AS `created_at`,
+        `withdraws`.`transaction_amount` AS `transaction_amount`,
+        'WITHDRAW' AS `method`
+    FROM
+        `withdraws` 
+    UNION ALL SELECT 
+        `deposits`.`id` AS `id`,
+        (SELECT 
+                `customers`.`full_name`
+            FROM
+                `customers`
+            WHERE
+                (`customers`.`id` = `deposits`.`customer_id`)) AS `Name_exp_7`,
+        `deposits`.`created_at` AS `created_at`,
+        `deposits`.`transaction_amount` AS `transaction_amount`,
+        'DEPOSIT' AS `method`
+    FROM
+        `deposits`
+    ORDER BY `created_at`

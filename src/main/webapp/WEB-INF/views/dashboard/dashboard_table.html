@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+  <title>Customer</title>
+  <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+  <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <div class="col-12" style="display: flex">
+      <div class="col-4">
+        <h5 class="card-header">Customer</h5>
+      </div>
+      <div class="col-3">
+      </div>
+      <div class="col-4" style="display: flex;justify-content: end;align-items: center;padding-right: 30px ">
+        <a th:href="@{/customer/create}">
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-history'></i>Transfer money Information
+          </button>
+        </a>
+      </div>
+      <div class="col-1" style="display: flex;justify-content: end;align-items: center;padding-right: 30px ">
+        <a th:href="@{/customer/create}">
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-user-plus'></i>
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Adress</th>
+          <th>Balance</th>
+          <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        <tr th:each="row,rowStat : ${customers}">
+          <td th:text="*{row.getId()}"></td>
+          <td th:text="${row.getName()}"></td>
+          <td th:text="${row.getEmail()}"></td>
+          <td th:text="${row.getAddress()}"></td>
+          <td th:text="${row.getBalance()}"></td>
+          <td class="text-center">
+            <div class="dropdown">
+              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" ><i class='bx bx-plus-circle'></i> Deposits</a>
+                <a class="dropdown-item" ><i class='bx bx-minus-circle'></i> Withdraw</a>
+                <a class="dropdown-item" ><i class='bx bx-repost'></i> Transfer</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- / Content -->
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Customer</title>
+    <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+<!-- ---------------------------------------------Toast-------------------------------------------- -->
+
+<!-- -------------------------------------------End Toast------------------------------------------ -->
+<!-- --------------------------------------------Content------------------------------------------- -->
+
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <div class="col-12" style="display: flex">
+      <div class="col-8">
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Tables /</span> Basic Tables</h4>
+      </div>
+      <div class="col-4" style="display: flex; padding-top: 10px;padding-right: 20px">
+        <!-- Search -->
+        <form action="/customers/search" id="search-form">
+          <div class="navbar-nav align-items-center">
+            <div class="nav-item d-flex align-items-center">
+<!--              <a href=""><i class="bx bx-search fs-4 lh-0"></i></a>-->
+              <a href="javascript:{}" onclick="document.getElementById('search-form').submit();"><i class="bx bx-search fs-4 lh-0"></i></a>
+              <input
+                      type="text"
+                      class="form-control border-0 shadow-none"
+                      placeholder="Search..."
+                      aria-label="Search..."
+                      name="searchKey"
+              />
+            </div>
+          </div>
+        </form>
+        <!-- /Search -->
+      </div>
+    </div>
+
+
+  <!-- Basic Bootstrap Table -->
+  <div class="card">
+    <div class="col-12" style="display: flex">
+      <div class="col-4">
+        <h5 class="card-header">Customer</h5>
+      </div>
+      <div class="col-3">
+      </div>
+      <div class="col-4" style="display: flex;justify-content: end;align-items: center;padding-right: 30px ">
+        <a href="/customers/banking-history">
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-history'></i>Transfer Money Information
+          </button>
+        </a>
+      </div>
+      <div class="col-1" style="display: flex;justify-content: end;align-items: center;padding-right: 30px ">
+        <a href="/customers/create">
+          <button type="submit" class="btn btn-primary">
+            <i class='bx bx-user-plus'></i>
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <div class="table-responsive text-nowrap">
+      <table class="table">
+        <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Adress</th>
+          <th>Balance</th>
+          <th class="text-center">Action</th>
+        </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+        <tr th:each="item : ${customers}">
+          <td th:text="*{item.getId()}"></td>
+          <td th:text="${item.getFullName()}"></td>
+          <td th:text="${item.getEmail()}"></td>
+          <td th:text="${item.getPhone()}"></td>
+          <td th:text="${item.getAddress()}"></td>
+          <td th:text="${#numbers.formatDecimal(item.getBalance(), 1, 'DEFAULT', 0, 'DEFAULT')} + ' đ'" style="text-align: right"></td>
+          <td class="text-center">
+            <div class="dropdown">
+              <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" th:href="@{/customers/deposit/__${item.getId()}__}"><i class='bx bx-plus-circle'></i> Deposits</a>
+                <a class="dropdown-item" th:href="@{/customers/withdraw/__${item.getId()}__}"><i class='bx bx-minus-circle'></i> Withdraw</a>
+                <a class="dropdown-item" th:href="@{/customers/transfer/__${item.getId()}__}"><i class='bx bx-repost'></i> Transfer</a>
+                <a class="dropdown-item" th:href="@{/customers/edit/__${item.getId()}__}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                <a class="dropdown-item" th:href="@{/customers/delete/__${item.getId()}__}"><i class="bx bx-trash me-1"></i> Delete</a>
+                <a class="dropdown-item" th:href="@{/customers/view/__${item.getId()}__}"><i class="bx bx-user me-1"></i> View</a>
+              </div>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--/ Basic Bootstrap Table -->
+</div>
+
+<!-- --------------------------------------------End Content------------------------------------------- -->
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

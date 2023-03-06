@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <title>Customer</title>
+    <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+<!-- --------------------------------------------Content------------------------------------------- -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Basic Layout</h5>
+                    <small class="text-muted float-end">Default label</small>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:object="${deposit}">
+                        <div class="col-12" style="display: flex; justify-content: space-around">
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Customer ID</p>
+                                <input th:field="*{customer.id}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Full Name</p>
+                                <input th:field="*{customer.fullName}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Current Balance ($)</p>
+                                <input th:field="*{customer.balance}" type="text" class="form-control" readonly/>
+                            </div >
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Transaction Amount ($)</p>
+                                <input th:field="*{transactionAmount}" type="text" class="form-control" placeholder="Enter transaction amount"/>
+<!--                                <input th:field="*{transactionAmount}" type="text" class="form-control" placeholder="Enter transaction amount"-->
+<!--                                       data-type="currency"-->
+<!--                                />-->
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">+ Deposit</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='/customers'" style="margin-left: 10px"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- --------------------Error-------------------- -->
+        <th:block th:if="${errors == true}">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="alert-danger" style="border-radius: 0.5rem">
+                        <ul style="padding-top: 10px">
+                            <li class="label-error" th:each="err : ${#fields.errors('deposit.*')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        <!-- ------------------End Error------------------ -->
+    </div>
+
+</div>
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+
+</div>
+
+
+<!-- --------------------------------------------End Content------------------------------------------- -->
+
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <title>Customer</title>
+    <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+<!-- --------------------------------------------Toast------------------------------------------- -->
+<div th:if="${withdraw}"
+     class="bs-toast toast toast-placement-ex m-2 fade bg-danger bottom-0 end-0 hide"
+     role="alert"
+     aria-live="assertive"
+     aria-atomic="true"
+     data-delay="2000"
+>
+    <div class="toast-header">
+        <i class="bx bx-bell me-2"></i>
+        <div class="me-auto fw-semibold">Withdraw</div>
+        <small>a few mins ago</small>
+        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+        Your balance is not enough.
+    </div>
+</div>
+<!-- --------------------------------------------End Toast------------------------------------------- -->
+
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Basic Layout</h5>
+                    <small class="text-muted float-end">Default label</small>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:object="${withdraw}">
+                        <div class="col-12" style="display: flex; justify-content: space-around">
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Customer ID</p>
+                                <input th:field="*{customer.id}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Full Name</p>
+                                <input th:field="*{customer.fullName}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Current Balance ($)</p>
+                                <input th:field="*{customer.balance}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Transaction Amount ($)</p>
+                                <input th:field="*{transactionAmount}" type="text" class="form-control" placeholder="Enter transaction amount"/>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-warning">- Withdraw</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='/customers'"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- --------------------Error-------------------- -->
+        <th:block th:if="${errors == true}">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="alert-danger" style="border-radius: 0.5rem">
+                        <ul style="padding-top: 10px">
+                            <li class="label-error" th:each="err : ${#fields.errors('withdraw.*')}" th:text="${err}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </th:block>
+        <!-- ------------------End Error------------------ -->
+    </div>
+
+</div>
+
+<!-- / Content -->
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>

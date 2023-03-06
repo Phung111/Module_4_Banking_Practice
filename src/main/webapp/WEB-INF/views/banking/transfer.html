@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+
+    <title>Customer</title>
+    <th:block th:replace="layout/head"/>
+</head>
+
+<body>
+<th:block th:replace="layout/body-start"/>
+
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="row">
+        <div class="col-12">
+            <div class="card mb-4">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">Transfer Layout</h5>
+                    <small class="text-muted float-end">Default label</small>
+                </div>
+                <div class="card-body">
+                    <form method="post" th:object="${transfer}">
+                        <div class="col-12" style="display: flex; justify-content: space-around">
+                            <div class="mb-3 col-3" style="margin-left: 5px">
+                                <p class="form-label">Sender ID</p>
+                                <input th:field="*{sender.id}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Sender Phone</p>
+                                <input th:field="*{sender.phone}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Sender Email</p>
+                                <input th:field="*{sender.email}" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Current Balance ($)</p>
+                                <input th:field="*{sender.balance}" type="text" class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-12" style="display: flex; justify-content: space-around">
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Recipient ID</p>
+                                </select>
+                                <select class="form-select" th:field="*{recipient.id}" id="">
+                                    <th:block th:each="item : ${recipients}">
+                                        <option th:value="${item.id}" th:text="${'(' + item.id + ') - ' + item.fullName}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Transfer Amount ($)</p>
+                                <input th:field="*{transferAmount}" type="text" class="form-control" placeholder="Enter transfer amount"/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Fees (%)</p>
+                                <input value="10" name="fees" type="text" class="form-control" readonly/>
+                            </div>
+                            <div class="mb-3 col-3" style="margin-left: 10px">
+                                <p class="form-label">Transaction Amount ($)</p>
+                                <input id="transactionAmount" name="transactionAmount" type="text" class="form-control" readonly/>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary">Transfer</button>
+                            <input type="button" class="btn btn-danger" value="Cancel" onclick="window.location='/customers'" style="margin-left: 10px"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- --------------------Error-------------------- -->
+            <th:block th:if="${errors == true}">
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="alert-danger" style="border-radius: 0.5rem">
+                            <ul style="padding-top: 10px">
+                                <li class="label-error" th:each="err : ${#fields.errors('transfer.*')}" th:text="${err}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+            <!-- ------------------End Error------------------ -->
+        </div>
+    </div>
+
+
+
+</div>
+
+<!-- / Content -->
+
+<script>
+    let transferAmountElem = document.getElementById("transferAmount");
+    transferAmountElem.addEventListener("input", function () {
+        let transferAmount = +transferAmountElem.value;
+        let fees = 10;
+        let feesAmount = transferAmount * fees / 100;
+        let transactionAmount = transferAmount + feesAmount;
+        document.getElementById("transactionAmount").value = transactionAmount;
+    })
+</script>
+
+<th:block th:replace="layout/body-end"/>
+</body>
+</html>
